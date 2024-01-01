@@ -1,0 +1,266 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": ".binturong", "label": ".binturong", "shape": "dot"}, {"color": "#97c2fc", "id": ".crocostyle", "label": ".crocostyle", "shape": "dot"}, {"color": "#97c2fc", "id": ".ebitenmaki", "label": ".ebitenmaki", "shape": "dot"}, {"color": "#97c2fc", "id": ".sverd", "label": ".sverd", "shape": "dot"}, {"color": "#97c2fc", "id": "Lux Renati", "label": "Lux Renati", "shape": "dot"}, {"color": "#97c2fc", "id": "Orix", "label": "Orix", "shape": "dot"}, {"color": "#97c2fc", "id": "Pancake", "label": "Pancake", "shape": "dot"}, {"color": "#97c2fc", "id": "__coolguy", "label": "__coolguy", "shape": "dot"}, {"color": "#97c2fc", "id": "__elderflower", "label": "__elderflower", "shape": "dot"}, {"color": "#97c2fc", "id": "_frenchvanilla", "label": "_frenchvanilla", "shape": "dot"}, {"color": "#97c2fc", "id": "_kleverton", "label": "_kleverton", "shape": "dot"}, {"color": "#97c2fc", "id": "aciddiologue", "label": "aciddiologue", "shape": "dot"}, {"color": "#97c2fc", "id": "adamato", "label": "adamato", "shape": "dot"}, {"color": "#97c2fc", "id": "aeioc", "label": "aeioc", "shape": "dot"}, {"color": "#97c2fc", "id": "alavid", "label": "alavid", "shape": "dot"}, {"color": "#97c2fc", "id": "alpamilch", "label": "alpamilch", "shape": "dot"}, {"color": "#97c2fc", "id": "amhart", "label": "amhart", "shape": "dot"}, {"color": "#97c2fc", "id": "archmagevargoth", "label": "archmagevargoth", "shape": "dot"}, {"color": "#97c2fc", "id": "auraflare2", "label": "auraflare2", "shape": "dot"}, {"color": "#97c2fc", "id": "azi_muthal", "label": "azi_muthal", "shape": "dot"}, {"color": "#97c2fc", "id": "bookinbear", "label": "bookinbear", "shape": "dot"}, {"color": "#97c2fc", "id": "by_any_other_name", "label": "by_any_other_name", "shape": "dot"}, {"color": "#97c2fc", "id": "cabbellard", "label": "cabbellard", "shape": "dot"}, {"color": "#97c2fc", "id": "capnlinnius", "label": "capnlinnius", "shape": "dot"}, {"color": "#97c2fc", "id": "caramaael", "label": "caramaael", "shape": "dot"}, {"color": "#97c2fc", "id": "celemon", "label": "celemon", "shape": "dot"}, {"color": "#97c2fc", "id": "cheesewizards", "label": "cheesewizards", "shape": "dot"}, {"color": "#97c2fc", "id": "chrisseeaya", "label": "chrisseeaya", "shape": "dot"}, {"color": "#97c2fc", "id": "colemchowl", "label": "colemchowl", "shape": "dot"}, {"color": "#97c2fc", "id": "dairuncates", "label": "dairuncates", "shape": "dot"}, {"color": "#97c2fc", "id": "dawntherin", "label": "dawntherin", "shape": "dot"}, {"color": "#97c2fc", "id": "dewybob12", "label": "dewybob12", "shape": "dot"}, {"color": "#97c2fc", "id": "dollipop", "label": "dollipop", "shape": "dot"}, {"color": "#97c2fc", "id": "doodlesquad", "label": "doodlesquad", "shape": "dot"}, {"color": "#97c2fc", "id": "drigglesnork", "label": "drigglesnork", "shape": "dot"}, {"color": "#97c2fc", "id": "elaryi", "label": "elaryi", "shape": "dot"}, {"color": "#97c2fc", "id": "elqwerty", "label": "elqwerty", "shape": "dot"}, {"color": "#97c2fc", "id": "emryss2183", "label": "emryss2183", "shape": "dot"}, {"color": "#97c2fc", "id": "fyrirraan", "label": "fyrirraan", "shape": "dot"}, {"color": "#97c2fc", "id": "geem0", "label": "geem0", "shape": "dot"}, {"color": "#97c2fc", "id": "haddythecreator", "label": "haddythecreator", "shape": "dot"}, {"color": "#97c2fc", "id": "heracleum", "label": "heracleum", "shape": "dot"}, {"color": "#97c2fc", "id": "hollowpeenyo", "label": "hollowpeenyo", "shape": "dot"}, {"color": "#97c2fc", "id": "honoka_kousaka", "label": "honoka_kousaka", "shape": "dot"}, {"color": "#97c2fc", "id": "hymnodi", "label": "hymnodi", "shape": "dot"}, {"color": "#97c2fc", "id": "indigosquare", "label": "indigosquare", "shape": "dot"}, {"color": "#97c2fc", "id": "irechan", "label": "irechan", "shape": "dot"}, {"color": "#97c2fc", "id": "itbroke", "label": "itbroke", "shape": "dot"}, {"color": "#97c2fc", "id": "janucide", "label": "janucide", "shape": "dot"}, {"color": "#97c2fc", "id": "jellonto", "label": "jellonto", "shape": "dot"}, {"color": "#97c2fc", "id": "kadisurmik", "label": "kadisurmik", "shape": "dot"}, {"color": "#97c2fc", "id": "karl0001", "label": "karl0001", "shape": "dot"}, {"color": "#97c2fc", "id": "katietheterrible", "label": "katietheterrible", "shape": "dot"}, {"color": "#97c2fc", "id": "kiangoru", "label": "kiangoru", "shape": "dot"}, {"color": "#97c2fc", "id": "kronotherion", "label": "kronotherion", "shape": "dot"}, {"color": "#97c2fc", "id": "lostsouls1509", "label": "lostsouls1509", "shape": "dot"}, {"color": "#97c2fc", "id": "lovliken", "label": "lovliken", "shape": "dot"}, {"color": "#97c2fc", "id": "lunibri", "label": "lunibri", "shape": "dot"}, {"color": "#97c2fc", "id": "maddcat", "label": "maddcat", "shape": "dot"}, {"color": "#97c2fc", "id": "magratas", "label": "magratas", "shape": "dot"}, {"color": "#97c2fc", "id": "malinsane", "label": "malinsane", "shape": "dot"}, {"color": "#97c2fc", "id": "mfxdraws", "label": "mfxdraws", "shape": "dot"}, {"color": "#97c2fc", "id": "misanthropicaz", "label": "misanthropicaz", "shape": "dot"}, {"color": "#97c2fc", "id": "monokuro88", "label": "monokuro88", "shape": "dot"}, {"color": "#97c2fc", "id": "nattokinnaise", "label": "nattokinnaise", "shape": "dot"}, {"color": "#97c2fc", "id": "nicoleham", "label": "nicoleham", "shape": "dot"}, {"color": "#97c2fc", "id": "nome_skf", "label": "nome_skf", "shape": "dot"}, {"color": "#97c2fc", "id": "nyancatimusprime", "label": "nyancatimusprime", "shape": "dot"}, {"color": "#97c2fc", "id": "octoboy_the_8th", "label": "octoboy_the_8th", "shape": "dot"}, {"color": "#97c2fc", "id": "olaxis", "label": "olaxis", "shape": "dot"}, {"color": "#97c2fc", "id": "otomorentaro", "label": "otomorentaro", "shape": "dot"}, {"color": "#97c2fc", "id": "pan.fry", "label": "pan.fry", "shape": "dot"}, {"color": "#97c2fc", "id": "pansear513", "label": "pansear513", "shape": "dot"}, {"color": "#97c2fc", "id": "petarus", "label": "petarus", "shape": "dot"}, {"color": "#97c2fc", "id": "picckl", "label": "picckl", "shape": "dot"}, {"color": "#97c2fc", "id": "pikaditto", "label": "pikaditto", "shape": "dot"}, {"color": "#97c2fc", "id": "punstersupreme", "label": "punstersupreme", "shape": "dot"}, {"color": "#97c2fc", "id": "qurly.q", "label": "qurly.q", "shape": "dot"}, {"color": "#97c2fc", "id": "real_numa", "label": "real_numa", "shape": "dot"}, {"color": "#97c2fc", "id": "robbierattrap69", "label": "robbierattrap69", "shape": "dot"}, {"color": "#97c2fc", "id": "rosieroux", "label": "rosieroux", "shape": "dot"}, {"color": "#97c2fc", "id": "sailordracula", "label": "sailordracula", "shape": "dot"}, {"color": "#97c2fc", "id": "samowhamo", "label": "samowhamo", "shape": "dot"}, {"color": "#97c2fc", "id": "sketchydesign78", "label": "sketchydesign78", "shape": "dot"}, {"color": "#97c2fc", "id": "skooptroop", "label": "skooptroop", "shape": "dot"}, {"color": "#97c2fc", "id": "spilled.t", "label": "spilled.t", "shape": "dot"}, {"color": "#97c2fc", "id": "spin._.", "label": "spin._.", "shape": "dot"}, {"color": "#97c2fc", "id": "starryofmylife", "label": "starryofmylife", "shape": "dot"}, {"color": "#97c2fc", "id": "stupid_bunny", "label": "stupid_bunny", "shape": "dot"}, {"color": "#97c2fc", "id": "summahhh", "label": "summahhh", "shape": "dot"}, {"color": "#97c2fc", "id": "surcettin", "label": "surcettin", "shape": "dot"}, {"color": "#97c2fc", "id": "taita", "label": "taita", "shape": "dot"}, {"color": "#97c2fc", "id": "theromanworld", "label": "theromanworld", "shape": "dot"}, {"color": "#97c2fc", "id": "thevulpixie", "label": "thevulpixie", "shape": "dot"}, {"color": "#97c2fc", "id": "thorrissa", "label": "thorrissa", "shape": "dot"}, {"color": "#97c2fc", "id": "thorsini", "label": "thorsini", "shape": "dot"}, {"color": "#97c2fc", "id": "xbox_720", "label": "xbox_720", "shape": "dot"}, {"color": "#97c2fc", "id": "yuiyua", "label": "yuiyua", "shape": "dot"}, {"color": "#97c2fc", "id": "zbeck01", "label": "zbeck01", "shape": "dot"}, {"color": "#97c2fc", "id": "zestiest", "label": "zestiest", "shape": "dot"}, {"color": "#97c2fc", "id": "Avrae", "label": "Avrae", "shape": "dot"}, {"color": "#97c2fc", "id": "Bartsic", "label": "Bartsic", "shape": "dot"}, {"color": "#97c2fc", "id": "Birthday Bot", "label": "Birthday Bot", "shape": "dot"}, {"color": "#97c2fc", "id": "Community Updates", "label": "Community Updates", "shape": "dot"}, {"color": "#97c2fc", "id": "Kitty Jim", "label": "Kitty Jim", "shape": "dot"}, {"color": "#97c2fc", "id": "PikaBot 2.0", "label": "PikaBot 2.0", "shape": "dot"}, {"color": "#97c2fc", "id": "Reminder", "label": "Reminder", "shape": "dot"}, {"color": "#97c2fc", "id": "Reminders", "label": "Reminders", "shape": "dot"}, {"color": "#97c2fc", "id": "reminder-bot", "label": "reminder-bot", "shape": "dot"}, {"color": "#97c2fc", "id": "sesh", "label": "sesh", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": ".binturong", "to": "cabbellard"}, {"arrows": "to", "from": ".crocostyle", "to": "by_any_other_name"}, {"arrows": "to", "from": ".ebitenmaki", "to": "taita"}, {"arrows": "to", "from": ".sverd", "to": "starryofmylife"}, {"arrows": "to", "from": "Lux Renati", "to": "archmagevargoth"}, {"arrows": "to", "from": "Orix", "to": "colemchowl"}, {"arrows": "to", "from": "Pancake", "to": "stupid_bunny"}, {"arrows": "to", "from": "__coolguy", "to": "caramaael"}, {"arrows": "to", "from": "__elderflower", "to": "zestiest"}, {"arrows": "to", "from": "_frenchvanilla", "to": "irechan"}, {"arrows": "to", "from": "_kleverton", "to": "alpamilch"}, {"arrows": "to", "from": "aciddiologue", "to": "thorrissa"}, {"arrows": "to", "from": "adamato", "to": "aeioc"}, {"arrows": "to", "from": "aeioc", "to": "petarus"}, {"arrows": "to", "from": "alavid", "to": "colemchowl"}, {"arrows": "to", "from": "alpamilch", "to": "summahhh"}, {"arrows": "to", "from": "amhart", "to": "cabbellard"}, {"arrows": "to", "from": "archmagevargoth", "to": "by_any_other_name"}, {"arrows": "to", "from": "auraflare2", "to": "maddcat"}, {"arrows": "to", "from": "azi_muthal", "to": "zbeck01"}, {"arrows": "to", "from": "bookinbear", "to": "emryss2183"}, {"arrows": "to", "from": "by_any_other_name", "to": "petarus"}, {"arrows": "to", "from": "cabbellard", "to": ".binturong"}, {"arrows": "to", "from": "capnlinnius", "to": "monokuro88"}, {"arrows": "to", "from": "caramaael", "to": "irechan"}, {"arrows": "to", "from": "celemon", "to": "hymnodi"}, {"arrows": "to", "from": "cheesewizards", "to": "janucide"}, {"arrows": "to", "from": "chrisseeaya", "to": "lostsouls1509"}, {"arrows": "to", "from": "colemchowl", "to": "_frenchvanilla"}, {"arrows": "to", "from": "dairuncates", "to": "adamato"}, {"arrows": "to", "from": "dawntherin", "to": "petarus"}, {"arrows": "to", "from": "dewybob12", "to": "honoka_kousaka"}, {"arrows": "to", "from": "dollipop", "to": "irechan"}, {"arrows": "to", "from": "doodlesquad", "to": "octoboy_the_8th"}, {"arrows": "to", "from": "drigglesnork", "to": "indigosquare"}, {"arrows": "to", "from": "elaryi", "to": ".crocostyle"}, {"arrows": "to", "from": "elqwerty", "to": "kiangoru"}, {"arrows": "to", "from": "emryss2183", "to": "bookinbear"}, {"arrows": "to", "from": "fyrirraan", "to": "irechan"}, {"arrows": "to", "from": "geem0", "to": "pikaditto"}, {"arrows": "to", "from": "haddythecreator", "to": "caramaael"}, {"arrows": "to", "from": "heracleum", "to": "octoboy_the_8th"}, {"arrows": "to", "from": "hollowpeenyo", "to": "__coolguy"}, {"arrows": "to", "from": "honoka_kousaka", "to": "by_any_other_name"}, {"arrows": "to", "from": "hymnodi", "to": "magratas"}, {"arrows": "to", "from": "indigosquare", "to": "thorsini"}, {"arrows": "to", "from": "irechan", "to": "aeioc"}, {"arrows": "to", "from": "itbroke", "to": "_frenchvanilla"}, {"arrows": "to", "from": "janucide", "to": ".binturong"}, {"arrows": "to", "from": "jellonto", "to": "pan.fry"}, {"arrows": "to", "from": "kadisurmik", "to": "_frenchvanilla"}, {"arrows": "to", "from": "karl0001", "to": "pansear513"}, {"arrows": "to", "from": "katietheterrible", "to": "picckl"}, {"arrows": "to", "from": "kiangoru", "to": "nyancatimusprime"}, {"arrows": "to", "from": "kronotherion", "to": "irechan"}, {"arrows": "to", "from": "lostsouls1509", "to": "picckl"}, {"arrows": "to", "from": "lovliken", "to": "irechan"}, {"arrows": "to", "from": "lunibri", "to": "irechan"}, {"arrows": "to", "from": "maddcat", "to": "petarus"}, {"arrows": "to", "from": "magratas", "to": "hymnodi"}, {"arrows": "to", "from": "malinsane", "to": "aeioc"}, {"arrows": "to", "from": "mfxdraws", "to": "zbeck01"}, {"arrows": "to", "from": "misanthropicaz", "to": "malinsane"}, {"arrows": "to", "from": "monokuro88", "to": "capnlinnius"}, {"arrows": "to", "from": "nattokinnaise", "to": "skooptroop"}, {"arrows": "to", "from": "nicoleham", "to": "geem0"}, {"arrows": "to", "from": "nome_skf", "to": "lunibri"}, {"arrows": "to", "from": "nyancatimusprime", "to": "kiangoru"}, {"arrows": "to", "from": "octoboy_the_8th", "to": "irechan"}, {"arrows": "to", "from": "olaxis", "to": ".crocostyle"}, {"arrows": "to", "from": "otomorentaro", "to": "colemchowl"}, {"arrows": "to", "from": "pan.fry", "to": "geem0"}, {"arrows": "to", "from": "pansear513", "to": "nyancatimusprime"}, {"arrows": "to", "from": "petarus", "to": "aeioc"}, {"arrows": "to", "from": "picckl", "to": "celemon"}, {"arrows": "to", "from": "pikaditto", "to": "robbierattrap69"}, {"arrows": "to", "from": "punstersupreme", "to": "summahhh"}, {"arrows": "to", "from": "qurly.q", "to": "by_any_other_name"}, {"arrows": "to", "from": "real_numa", "to": "summahhh"}, {"arrows": "to", "from": "robbierattrap69", "to": "pikaditto"}, {"arrows": "to", "from": "rosieroux", "to": "haddythecreator"}, {"arrows": "to", "from": "sailordracula", "to": "punstersupreme"}, {"arrows": "to", "from": "samowhamo", "to": ".crocostyle"}, {"arrows": "to", "from": "sketchydesign78", "to": "indigosquare"}, {"arrows": "to", "from": "skooptroop", "to": "geem0"}, {"arrows": "to", "from": "spilled.t", "to": "hymnodi"}, {"arrows": "to", "from": "spin._.", "to": "surcettin"}, {"arrows": "to", "from": "starryofmylife", "to": "zbeck01"}, {"arrows": "to", "from": "stupid_bunny", "to": "xbox_720"}, {"arrows": "to", "from": "summahhh", "to": "caramaael"}, {"arrows": "to", "from": "surcettin", "to": "irechan"}, {"arrows": "to", "from": "taita", "to": "zestiest"}, {"arrows": "to", "from": "theromanworld", "to": "skooptroop"}, {"arrows": "to", "from": "thevulpixie", "to": "irechan"}, {"arrows": "to", "from": "thorrissa", "to": "thorsini"}, {"arrows": "to", "from": "thorsini", "to": "irechan"}, {"arrows": "to", "from": "xbox_720", "to": "skooptroop"}, {"arrows": "to", "from": "yuiyua", "to": "fyrirraan"}, {"arrows": "to", "from": "zbeck01", "to": "maddcat"}, {"arrows": "to", "from": "zestiest", "to": "taita"}, {"arrows": "to", "from": "Avrae", "to": "spin._."}, {"arrows": "to", "from": "Bartsic", "to": "aeioc"}, {"arrows": "to", "from": "Birthday Bot", "to": "itbroke"}, {"arrows": "to", "from": "Community Updates", "to": "thorsini"}, {"arrows": "to", "from": "Kitty Jim", "to": "elqwerty"}, {"arrows": "to", "from": "PikaBot 2.0", "to": "Pancake"}, {"arrows": "to", "from": "Reminder", "to": "Reminders"}, {"arrows": "to", "from": "Reminders", "to": "cheesewizards"}, {"arrows": "to", "from": "reminder-bot", "to": "amhart"}, {"arrows": "to", "from": "sesh", "to": ".crocostyle"}, {"arrows": "to", "color": "red", "from": ".binturong", "to": "dairuncates"}, {"arrows": "to", "color": "red", "from": ".crocostyle", "to": "by_any_other_name"}, {"arrows": "to", "color": "red", "from": ".ebitenmaki", "to": "fyrirraan"}, {"arrows": "to", "color": "red", "from": ".sverd", "to": "caramaael"}, {"arrows": "to", "color": "red", "from": "Avrae", "to": "dairuncates"}, {"arrows": "to", "color": "red", "from": "Bartsic", "to": "octoboy_the_8th"}, {"arrows": "to", "color": "red", "from": "Birthday Bot", "to": "drigglesnork"}, {"arrows": "to", "color": "red", "from": "Kitty Jim", "to": "elqwerty"}, {"arrows": "to", "color": "red", "from": "Lux Renati", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "Orix", "to": "lunibri"}, {"arrows": "to", "color": "red", "from": "Pancake", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "Reminder", "to": "malinsane"}, {"arrows": "to", "color": "red", "from": "__coolguy", "to": "geem0"}, {"arrows": "to", "color": "red", "from": "__elderflower", "to": "nyancatimusprime"}, {"arrows": "to", "color": "red", "from": "_frenchvanilla", "to": "fyrirraan"}, {"arrows": "to", "color": "red", "from": "_kleverton", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "aciddiologue", "to": "kiangoru"}, {"arrows": "to", "color": "red", "from": "adamato", "to": ".binturong"}, {"arrows": "to", "color": "red", "from": "aeioc", "to": "caramaael"}, {"arrows": "to", "color": "red", "from": "alavid", "to": "magratas"}, {"arrows": "to", "color": "red", "from": "alpamilch", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "amhart", "to": "elqwerty"}, {"arrows": "to", "color": "red", "from": "archmagevargoth", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "auraflare2", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "azi_muthal", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "by_any_other_name", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "cabbellard", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "capnlinnius", "to": "celemon"}, {"arrows": "to", "color": "red", "from": "caramaael", "to": "robbierattrap69"}, {"arrows": "to", "color": "red", "from": "celemon", "to": "fyrirraan"}, {"arrows": "to", "color": "red", "from": "cheesewizards", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "colemchowl", "to": "lunibri"}, {"arrows": "to", "color": "red", "from": "dairuncates", "to": ".binturong"}, {"arrows": "to", "color": "red", "from": "dawntherin", "to": "dairuncates"}, {"arrows": "to", "color": "red", "from": "dewybob12", "to": "aeioc"}, {"arrows": "to", "color": "red", "from": "dollipop", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "doodlesquad", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "drigglesnork", "to": "sketchydesign78"}, {"arrows": "to", "color": "red", "from": "elqwerty", "to": ".binturong"}, {"arrows": "to", "color": "red", "from": "fyrirraan", "to": "celemon"}, {"arrows": "to", "color": "red", "from": "geem0", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "haddythecreator", "to": "surcettin"}, {"arrows": "to", "color": "red", "from": "heracleum", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "honoka_kousaka", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "hymnodi", "to": "magratas"}, {"arrows": "to", "color": "red", "from": "indigosquare", "to": "malinsane"}, {"arrows": "to", "color": "red", "from": "irechan", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "janucide", "to": "cabbellard"}, {"arrows": "to", "color": "red", "from": "jellonto", "to": "surcettin"}, {"arrows": "to", "color": "red", "from": "kadisurmik", "to": "octoboy_the_8th"}, {"arrows": "to", "color": "red", "from": "kiangoru", "to": "elqwerty"}, {"arrows": "to", "color": "red", "from": "kronotherion", "to": "dawntherin"}, {"arrows": "to", "color": "red", "from": "lovliken", "to": "hymnodi"}, {"arrows": "to", "color": "red", "from": "lunibri", "to": "fyrirraan"}, {"arrows": "to", "color": "red", "from": "maddcat", "to": "kiangoru"}, {"arrows": "to", "color": "red", "from": "magratas", "to": ".binturong"}, {"arrows": "to", "color": "red", "from": "malinsane", "to": "honoka_kousaka"}, {"arrows": "to", "color": "red", "from": "misanthropicaz", "to": "monokuro88"}, {"arrows": "to", "color": "red", "from": "monokuro88", "to": "misanthropicaz"}, {"arrows": "to", "color": "red", "from": "nattokinnaise", "to": "drigglesnork"}, {"arrows": "to", "color": "red", "from": "nicoleham", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "nome_skf", "to": "skooptroop"}, {"arrows": "to", "color": "red", "from": "nyancatimusprime", "to": "honoka_kousaka"}, {"arrows": "to", "color": "red", "from": "octoboy_the_8th", "to": "malinsane"}, {"arrows": "to", "color": "red", "from": "olaxis", "to": "dollipop"}, {"arrows": "to", "color": "red", "from": "otomorentaro", "to": "magratas"}, {"arrows": "to", "color": "red", "from": "pan.fry", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "petarus", "to": "by_any_other_name"}, {"arrows": "to", "color": "red", "from": "picckl", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "pikaditto", "to": "cabbellard"}, {"arrows": "to", "color": "red", "from": "punstersupreme", "to": "cabbellard"}, {"arrows": "to", "color": "red", "from": "qurly.q", "to": "by_any_other_name"}, {"arrows": "to", "color": "red", "from": "robbierattrap69", "to": "pikaditto"}, {"arrows": "to", "color": "red", "from": "samowhamo", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "sesh", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "sketchydesign78", "to": "drigglesnork"}, {"arrows": "to", "color": "red", "from": "skooptroop", "to": "petarus"}, {"arrows": "to", "color": "red", "from": "spilled.t", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "spin._.", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "starryofmylife", "to": "fyrirraan"}, {"arrows": "to", "color": "red", "from": "summahhh", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "surcettin", "to": "thorsini"}, {"arrows": "to", "color": "red", "from": "taita", "to": "amhart"}, {"arrows": "to", "color": "red", "from": "theromanworld", "to": "dairuncates"}, {"arrows": "to", "color": "red", "from": "thevulpixie", "to": "drigglesnork"}, {"arrows": "to", "color": "red", "from": "thorrissa", "to": "robbierattrap69"}, {"arrows": "to", "color": "red", "from": "thorsini", "to": "dairuncates"}, {"arrows": "to", "color": "red", "from": "xbox_720", "to": "elqwerty"}, {"arrows": "to", "color": "red", "from": "yuiyua", "to": "octoboy_the_8th"}, {"arrows": "to", "color": "red", "from": "zbeck01", "to": "by_any_other_name"}, {"arrows": "to", "color": "red", "from": "zestiest", "to": "geem0"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "nodes",
+            "edges"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
